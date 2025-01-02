@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информационная панель</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img id="logo" src="logo.png" alt="Logo">
+    <nav>
+        <a href="russisch.html">Инфо</a>
+        <a href="links.html">Ссылки</a>
+        <select class="language-select" onchange="location = this.value;">
+            <option value="language.html">Язык</option>
+            <option value="index.html">Deutsch</option>
+            <option value="englisch.html">English</option>
+            <option value="ukrainisch.html">Українська</option>
+			<option value="tadschikisch.html">Тоҷикӣ</option>
+			<option value="albanisch.html">Shqiptare</option>
+			<option value="serbisch.html">Српски</option>
+			<option value="chinesisch.html">中国人</option>
+			<option value="arabisch.html">عربي</option>
+        </select>
+    </nav>
+</header>
+
+<main>
+    <h1>Интернет в Campus Brigittenau</h1>
+
+<div id="outerContentBox">
+        <div id="contentBox" class="timetable">
+            <div id="content">loading...</div>
+            <button id="refreshButton">&#8595;&#8593;</button> <!-- Перевёрнутые стрелочки -->
+            <div id="overlay">Последнее обновление: ...</div>
+        </div>
+    </div>
+
+
+    <script>
+        const gistId = '182bca0e9cba50884ba75b42dee0699b'; 
+        const url = `https://api.github.com/gists/${gistId}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const fileName = Object.keys(data.files)[0];
+                const content = data.files[fileName].content;
+                document.getElementById('content').innerText = content;
+
+                // Устанавливаем время последнего обновления
+                const updatedAt = new Date(data.updated_at).toLocaleString();
+                document.getElementById('overlay').innerText = `Последнее обновление: ${updatedAt}`;
+            })
+            .catch(error => console.error('Fehler:', error));
+    </script>
+
+<h2>1. Технические требования</h2>
+<ul>
+    <li>Для подключения вашего устройства к сетевому порту на стене, ваше устройство должно иметь Ethernet-порт. Сетевой кабель можно приобрести в Compref (5 м длиной за 4€), при наличии оного.</li>
+    <li>Устройства без Ethernet-порта требуют адаптер USB-to-LAN для проводного подключения. Адаптер можно купить в Compref (если он есть в наличии) за 6€.</li>
+    <li>В общежитии нет общедоступного Wi-Fi, за исключением Wi-Fi в холле главного здания. Если нужен Wi-Fi в вашей комнате, нужно приобрести роутер. Он стоит 20€, если есть в наличии.</li>
+    <li>Важно: <b style="color: orange;">ПРОВОДНОЕ</b> подключение <b style="color: orange;">БЫСТРЕЕ</b> и <b style="color: orange;">СТАБИЛЬНЕЕ</b>.</li>
+</ul>
+
+<h2>2. Регистрация</h2>
+<ul>
+    <li>Для регистрации вашего устройства (ноутбук, десктоп, роутер, Xbox, PS и т. д.) необходимо обратиться в Compref в рабочие часы.</li>
+    <h3 style="text-align: center; text-decoration: underline; color: red;"><span style="text-decoration: line-through">АХТУНГ</span> ВНИМАНИЕ!</h3>
+    <li>DSL-модемы, вероятно, <b style="color: orange;">НЕ БУДУТ</b> работать! Точки доступа (с одним сетевым портом на задней панели) можно зарегистрировать, но нам нужны <b style="color: orange;">ВСЕ</b> ваши устройства для регистрации.</li>
+</ul>
+
+<h2>3. После регистрации</h2>
+<ul>
+    <li>Если вы подключаетесь напрямую в сетевой порт(без роутера), установите ваше устройство на автоматическое получение IP-адреса. (DHCP — обычно это настройка по умолчанию)</li>
+    <li>Пожалуйста, верните настройки DNS на дефолтные значения(если вы их меняли, конечно же). Пользовательские DNS-настройки <b style="color: orange;">НЕ РАБОТАЮТ</b>!</li>
+    <li>Если ваш компьютер заразится вирусом, вас, скорее всего, отключат от сети. В этом случае свяжитесь с Compref.</li>
+    <li>У нас есть лимит на выгрузку 40 ГБ за 24 часа и 80 ГБ за 72 часа. В <b style="color: orange;">ДВОЙНЫХ КОМНАТАХ</b> этот лимит <b style="color: orange;">ОБЩИЙ</b> с вашим соседом по комнате!</li>
+    <li>Чтобы избежать превышения лимита, отключите автоматическое создание резервных копий. Также превышение могут вызвать такие вещи, как стриминг на Twitch/в Discord, просмотр нелегальных стримов или использование торрентов. Если вы превысите лимит, ваше подключение к интернету будет заблокировано на 72 часа! Вы можете проверить свой трафик на сайте <a href="http://www.panorama.sth.ac.at/">http://www.panorama.sth.ac.at/</a> в разделе «Мой аккаунт».</li>
+    <li><b class="warning-text">COMPREF <span style="color: red;">НЕ МОЖЕТ</span> ВАС РАЗБЛОКИРОВАТЬ В СЛУЧАЕ ПРЕВЫШЕНИЯ ЛИМИТА!!!</b></li>
+</ul>
+
+<h3 style="text-align: center; text-decoration: underline; color: red;">ПОДКЛЮЧЕНИЕ РОУТЕРА В КОМНАТЕ</h3>
+<ul>
+    <li>Роутеру нужно иметь подключёнными <b style="color: orange;">ОБА</b> кабеля: питания и сетевой. Оба втыкаются в заднюю панель роутера. Сетевой кабель должен быть подключен к <b style="color:#0088FF;">СИНЕМУ</b> порту роутера (если у вас такой же TPLINK, как мы продаём).</li>
+    <li>Подключите блок питания роутера в розетку. Сетевой кабель должен быть подключен к одному из двух сетевых портов на стене. <b style="color: orange">ТОЛЬКО ОДИН ПОРТ РАБОТАЕТ!</b> Правильный порт <b style="color: orange;">ДОЛЖЕН</b> быть помечен номером вашей комнаты. Если нет маркировки, скорее всего, это левый порт.</li>
+    <li>ЕСЛИ всё подключено правильно, индикаторы на передней панели роутера должны гореть зелёным, <b style="color: orange">НЕ</b> оранжевым или красным.</li>
+    <li>Вы можете найти имя и пароль от Wi-Fi на нижней панели роутера.</li>
+    <li><b style="color: orange">ПОЖАЛУЙСТА,</b> не сбрасывайте настройки роутера до заводских и не изменяйте их. <b style="color: orange">ВАШ ИНТЕРНЕТ НЕ СТАНЕТ БЫСТРЕЕ!</b></li>
+</ul>
+
+<h2>4. Оплата</h2>
+<ul>
+    <li>Ежемесячная плата: 5€</li>
+    <li>Оплата возможна <b style="color: orange;">ТОЛЬКО НАЛИЧНЫМИ</b> в нашем офисе (оплата нескольких месяцев наперёд возможна и рекомендуется =))</li>
+    <li>Оплата производится до 5 числа каждого месяца в <span class="time-item">
+        <span class="time" data-12h="12:00 PM">12:00 </span> 
+        (если не оплачено заранее). 
+        <button class="normal-time" onclick="toggleTimeFormat(this)">Normal time</button>
+    </span></li>
+    <li><b style="color:orange">ДЛЯ НОВОПРИБЫВШИХ:</b> Интернет бесплатен с момента вашей регистрации до следующего <b style="color:orange">5</b> числа.</li>
+</ul>
+
+<h2>5. Контакты</h2>
+<ul>
+    <li>Электронная почта: <a href="mailto:compref@panorama.sth.ac.at">compref@panorama.sth.ac.at</a></li>
+    <li>Часы работы: регулярно объявляются на двери нашего офиса, в нашей группе WhatsApp (ссылки можно найти как здесь, так и на двери) и на этом сайте.</li>
+</ul>
+
+<h2>6. Коммуникация</h2>
+<ul>
+    <li>Для студентов был создан чат в WhatsApp. <br />
+        Присоединяйтесь к нам, чтобы обмениваться информацией, покупать вещи, делиться местоположением контроллёров и не пропускать другие мероприятия =) </li>
+   <li>Чат</li>
+    <button id="showQRCodeBtn">ТЫК для QR-кода</button>
+    <div id="qrPopup" class="popup">
+        <img src="qrlink.png" alt="QR-код" />
+    </div>
+
+    <a href="https://chat.whatsapp.com/H9IFtAalJeqHDng3MTJMV4" target="_blank">
+        <button style="background-color: #8b0000; color: #fff;">ТЫК для ссылки</button>
+    </a>
+</ul>
+
+<ul>
+<li>Анонсы</li>
+    <button id="showQRCodeBtn2">ТЫК для QR-кода</button>
+    <div id="qrPopup2" class="popup2">
+        <img src="annqr.png" alt="QR-Code2" />
+    </div>
+
+    <a href="https://chat.whatsapp.com/IXqQtw8pGz680E8v2oI2cn" target="_blank">
+        <button style="background-color: #8b0000; color: #fff;">ТЫК для ссылки</button>
+    </a>
+	
+	
+</ul>
+
+<!-- qr code js -->
+
+<script>
+	document.getElementById("showQRCodeBtn").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+    document.getElementById("qrPopup").style.display = "block"; // Показать QR код
+});
+
+// Закрытие попапа при клике вне его
+document.addEventListener("click", function() {
+    document.getElementById("qrPopup").style.display = "none"; // Скрыть QR код
+});
+
+// Закрытие попапа при клике на изображение (если нужно)
+document.getElementById("qrPopup").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+});
+</script>
+
+<script>
+	document.getElementById("showQRCodeBtn2").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+    document.getElementById("qrPopup2").style.display = "block"; // Показать QR код
+});
+
+// Закрытие попапа при клике вне его
+document.addEventListener("click", function() {
+    document.getElementById("qrPopup2").style.display = "none"; // Скрыть QR код
+});
+
+// Закрытие попапа при клике на изображение (если нужно)
+document.getElementById("qrPopup2").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+});
+</script>
+
+<!-- freedom time js -->
+<script>
+    function toggleTimeFormat(button) {
+        const timeElement = button.previousElementSibling;
+        const currentTime = timeElement.textContent.trim();
+        
+        if (button.textContent === "Normal Time") {
+            // Switch to 24-hour format (simply strip AM/PM)
+            const time12 = timeElement.getAttribute('data-12h');
+            const time24 = convertTo24Hour(time12);
+            timeElement.textContent = time24;
+            button.textContent = "Freedom Time";  // Change button text to "Freedom Time"
+            button.classList.remove("normal-time");
+            button.classList.add("freedom-time");  // Change button style (American flag)
+        } else {
+            // Switch back to 12-hour format (add AM/PM)
+            const time24 = timeElement.textContent.trim();
+            const time12 = convertTo12Hour(time24);
+            timeElement.textContent = time12;
+            button.textContent = "Normal Time";  // Change button text to "Normal Time"
+            button.classList.remove("freedom-time");
+            button.classList.add("normal-time");  // Reset button style to default
+        }
+    }
+
+    function convertTo24Hour(time12) {
+        const [time, period] = time12.split(" ");
+        let [hours, minutes] = time.split(":").map(Number);
+
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;  // Midnight case
+        }
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    }
+
+    function convertTo12Hour(time24) {
+        let [hours, minutes] = time24.split(":").map(Number);
+        const period = hours >= 12 ? "PM" : "AM";
+
+        if (hours > 12) hours -= 12;  // Convert 24-hour time to 12-hour
+        if (hours === 0) hours = 12;  // Midnight case
+
+        return `${hours}:${String(minutes).padStart(2, '0')} ${period}`;
+    }
+</script>
+
+ 
+</main>
+
+<footer style="display: flex; justify-content: space-between; align-items: center; padding: 7px;">
+    <p style="margin: 0;"><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
+	<div style="margin: 0; visibility: hidden;" class="mw0">credits <div class="popup9" style="visibility:visible;">Чё мышкой елозишь? Кредитсы ищешь?! Незадача... Ну можешь на digga8 кликнуть...</div></div>
+    <p class="mwl" style="margin: 0;">With ♡ by <a href="https://www.instagram.com/hassrede88" target="_blank" style="text-decoration: none;">digga8</a></p>
+</footer>	  
+
+</body>
+</html>

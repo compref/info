@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informacioni panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img id="logo" src="logo.png" alt="Logo" href="index.html">
+    <nav>
+        <a href="serbisch.html">Info</a>
+        <a href="links.html">Linkovi</a>
+        <select class="language-select" onchange="location = this.value;">
+            <option value="language.html">Jezik</option>
+            <option value="index.html">Deutsch</option>
+            <option value="russisch.html">Русский</option>
+            <option value="ukrainisch.html">Українська</option>
+            <option value="tadschikisch.html">Тоҷикӣ</option>
+            <option value="albanisch.html">Shqiptare</option>
+			<option value="chinesisch.html">中国人</option>
+			<option value="arabisch.html">عربي</option>
+			
+        </select>
+    </nav>
+</header>
+
+<main>
+    <h1>Internet na kampusu Brigittenau</h1>
+
+<div id="outerContentBox">
+        <div id="contentBox" class="timetable">
+            <div id="content">učitavanje...</div>
+            <button id="refreshButton">&#8595;&#8593;</button> <!-- Preokrenute strelice -->
+            <div id="overlay">Poslednje ažuriranje: ...</div>
+        </div>
+    </div>
+
+
+    <script>
+        const gistId = '182bca0e9cba50884ba75b42dee0699b'; 
+        const url = `https://api.github.com/gists/${gistId}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Mrežni odgovor nije u redu ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                const fileName = Object.keys(data.files)[0];
+                const content = data.files[fileName].content;
+                document.getElementById('content').innerText = content;
+
+                // Postavljanje vremena poslednjeg ažuriranja
+                const updatedAt = new Date(data.updated_at).toLocaleString();
+                document.getElementById('overlay').innerText = `Poslednje ažuriranje: ${updatedAt}`;
+            })
+            .catch(error => console.error('Greška:', error));
+    </script>
+
+<h2>1. Tehnički zahtevi</h2>
+<ul>
+    <li>Da biste povezali svoj uređaj direktno u odgovarajući mrežni port na zidu, vaš uređaj mora imati ethernet port. Mrežni kabl može se kupiti u compref-u ako je dostupan (5m dužine za 4€)</li>
+    <li>Uređaji bez ethernet porta zahtevaju USB to LAN adapter za povezivanje putem kabla. Adapter se može kupiti u compref-u ako je dostupan i košta 6€.</li>
+    <li>U domu nema javnog Wi-Fi-a osim u Pano lobiju. Ako želite Wi-Fi u svojoj sobi, morate nabaviti ruter. Može se kupiti u compref-u ako je dostupan i košta 20€</li>
+	<li>Zapamtite: <b style="color: orange;">ŽIČANA</b> veza je <b style="color: orange;">BRŽA</b> i <b style="color: orange;">STABILNIJA</b>.</li>
+</ul>
+
+<h2>2. Proces registracije</h2>
+<ul>
+    <li>Da biste registrovali svoj uređaj (laptop, desktop, ruter, Xbox, PS itd.), morate se obratiti compref-u tokom radnog vremena.</li>
+    <h3 style="text-align: center; text-decoration: underline; color: red;">PAŽNJA!</h3>
+    <li>DSL modemi verovatno <b style="color: orange;">NEĆE</b> raditi! Pristupne tačke (jedan mrežni port sa zadnje strane) mogu biti registrovane, ali su nam potrebni <b style="color: orange;">SVI</b> vaši uređaji za registraciju.</li>
+</ul>
+
+<h2>3. Nakon registracije</h2>
+<ul>
+    <li>Ako se povezujete direktno na zidnu utičnicu, postavite svoj uređaj da automatski dobije IP adresu (DHCP - obično je ovo podrazumevano podešavanje).</li>
+	<li>Molimo vas da postavite DNS podešavanja na podrazumevana. Prilagođena DNS podešavanja <b style="color: orange">NEĆE</b> raditi!</li>
+    <li>Ako vaš računar bude zaražen, verovatno ćete biti blokirani sa mreže. U tom slučaju kontaktirajte compref.</li>
+    <li>Imamo ograničenje upload-a od 40GB za 24h i 80GB za 72h. U <b style="color: orange;">DVOKREVETNIM</b> sobama ovo ograničenje je <b style="color: orange;">PODELJENO</b> sa vašim cimerom!!</li>
+    <li>Da biste sprečili preopterećenje mreže, morate isključiti automatske bekapove. Takođe, preopterećenje može biti izazvano aktivnostima kao što su: strimovanje na Twitch-u ili Discord-u, gledanje ilegalnih strimova, korišćenje torenta. Ako premašite ograničenje, vaš internet će biti blokiran na 72 sata! Možete proveriti svoj upload na <a href="http://www.panorama.sth.ac.at/">http://www.panorama.sth.ac.at/</a> u odeljku "Moj nalog".</li>
+    <li><b class="warning-text">COMPREF <span style="color: red;">NE MOŽE</span> OTKLJUČATI VAŠ INTERNET U SLUČAJU PREOPTEREĆENJA!!!</b></li>
+</ul>
+
+<h3 style="text-align: center; text-decoration: underline; color: red;">KAKO POVEZATI RUTER</h3>
+<ul>
+    <li>U svojoj sobi, molimo vas da priključite <b style="color: orange;">OBA</b> kabla (energetski i mrežni) na zadnju stranu vašeg rutera. Mrežni kabl treba biti priključen u <b style="color:#0088FF;">PLAVI</b> port rutera.</li>
+    <li>Priključite energetski adapter rutera u utičnicu. Mrežni kabl treba biti povezan u jedan od dva mrežna porta na zidu. <b style="color: orange">SAMO JEDAN PORT FUNKCIONIŠE!</b> Tačan port <b style="color: orange;">MORA</b> biti označen brojem vaše sobe. Ako nema etikete, najverovatnije je levi port.</li>
+    <li>AKO je ispravno povezano, LED svetla na prednjoj strani rutera treba da budu zelena, <b style="color: orange">NE</b> narandžasta ili crvena.</li>
+    <li>Možete pronaći naziv svoje Wi-Fi mreže i lozinku na dnu rutera.</li>
+	<li><b style="color: orange">Molimo vas</b> da ne resetujete ruter niti menjate bilo kakva podešavanja. <b style="color: orange">VAŠ INTERNET NEĆE POSTATI BRŽI!</b>
+</ul>
+
+<h2>4. Plaćanje</h2>
+<ul>
+    <li>Mjesečna naknada za održavanje: 5€</li>
+    <li>Plaćanje je moguće <b style="color: orange;">SAMO U GOTOVINI</b> u našem uredu (plaćanje za nekoliko meseci unapred je moguće i preporučeno =))</li>
+    <li>Plaćanje ističe svakog meseca 5. u 
+	<span class="time-item">
+        <span class="time" data-12h="12:00 PM">12:00 PM</span> 
+        (ako nije plaćeno unapred). 
+        <button class="normal-time" onclick="toggleTimeFormat(this)">Normal Time</button>
+    </span>
+	</li>
+	<li><b style="color:orange">ZA NOVAJLIJE:</b> Internet je besplatan od dana kada se registrujete do sledećeg <b style="color:orange">5.</b> </li>
+</ul>
+
+<h2>5. Kontakt</h2>
+<ul>
+    <li>Email: <a href="mailto:compref@panorama.sth.ac.at">compref@panorama.sth.ac.at</a></li>
+    <li>Radno vreme: Redovno se oglašava na našim vratima, u našoj WhatsApp grupi (linkove možete pronaći ovde i na vratima) i na ovom sajtu.</li>
+</ul>
+
+<h2>6. Komunikacija</h2>
+<ul>
+    <li>Grupa za chat na WhatsApp-u je kreirana od strane studenata za studente. <br />
+        Pridružite nam se kako biste razmenjivali informacije, kupovali stvari, delili lokacije kontrolera i ne propustili druge aktivnosti =) </li>
+  <li>Chat</li>
+    <button id="showQRCodeBtn">CLICK za QR kod</button>
+    <div id="qrPopup" class="popup">
+        <img src="qrlink.png" alt="QR kod" />
+    </div>
+
+    <a href="https://chat.whatsapp.com/H9IFtAalJeqHDng3MTJMV4" target="_blank">
+        <button style="background-color: #8b0000; color: #fff;">CLICK za link</button>
+    </a>
+</ul>
+<ul>
+<li>Najave</li>
+    <button id="showQRCodeBtn2">CLICK za QR kod</button>
+    <div id="qrPopup2" class="popup2">
+        <img src="annqr.png" alt="QR kod 2" />
+    </div>
+
+    <a href="https://chat.whatsapp.com/IXqQtw8pGz680E8v2oI2cn" target="_blank">
+        <button style="background-color: #8b0000; color: #fff;">CLICK za link</button>
+    </a>
+</ul>
+
+<!-- qr code js -->
+
+<script>
+	document.getElementById("showQRCodeBtn").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+    document.getElementById("qrPopup").style.display = "block"; // Показать QR код
+});
+
+// Закрытие попапа при клике вне его
+document.addEventListener("click", function() {
+    document.getElementById("qrPopup").style.display = "none"; // Скрыть QR код
+});
+
+// Закрытие попапа при клике на изображение (если нужно)
+document.getElementById("qrPopup").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+});
+</script>
+
+<script>
+	document.getElementById("showQRCodeBtn2").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+    document.getElementById("qrPopup2").style.display = "block"; // Показать QR код
+});
+
+// Закрытие попапа при клике вне его
+document.addEventListener("click", function() {
+    document.getElementById("qrPopup2").style.display = "none"; // Скрыть QR код
+});
+
+// Закрытие попапа при клике на изображение (если нужно)
+document.getElementById("qrPopup2").addEventListener("click", function(event) {
+    event.stopPropagation(); // Остановить событие клика от всплытия
+});
+</script>
+
+<!-- freedom time js -->
+<script>
+    function toggleTimeFormat(button) {
+        const timeElement = button.previousElementSibling;
+        const currentTime = timeElement.textContent.trim();
+        
+        if (button.textContent === "Normal Time") {
+            // Switch to 24-hour format (simply strip AM/PM)
+            const time12 = timeElement.getAttribute('data-12h');
+            const time24 = convertTo24Hour(time12);
+            timeElement.textContent = time24;
+            button.textContent = "Freedom Time";  // Change button text to "Freedom Time"
+            button.classList.remove("normal-time");
+            button.classList.add("freedom-time");  // Change button style (American flag)
+        } else {
+            // Switch back to 12-hour format (add AM/PM)
+            const time24 = timeElement.textContent.trim();
+            const time12 = convertTo12Hour(time24);
+            timeElement.textContent = time12;
+            button.textContent = "Normal Time";  // Change button text to "Normal Time"
+            button.classList.remove("freedom-time");
+            button.classList.add("normal-time");  // Reset button style to default
+        }
+    }
+
+    function convertTo24Hour(time12) {
+        const [time, period] = time12.split(" ");
+        let [hours, minutes] = time.split(":").map(Number);
+
+        if (period === "PM" && hours !== 12) {
+            hours += 12;
+        } else if (period === "AM" && hours === 12) {
+            hours = 0;  // Midnight case
+        }
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    }
+
+    function convertTo12Hour(time24) {
+        let [hours, minutes] = time24.split(":").map(Number);
+        const period = hours >= 12 ? "PM" : "AM";
+
+        if (hours > 12) hours -= 12;  // Convert 24-hour time to 12-hour
+        if (hours === 0) hours = 12;  // Midnight case
+
+        return `${hours}:${String(minutes).padStart(2, '0')} ${period}`;
+    }
+</script>
+
+
+</ul>
+</main>
+
+<footer style="display: flex; justify-content: space-between; align-items: center; padding: 7px;">
+    <p style="margin: 0;"><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
+	<div style="margin: 0;" class="mw0">credits <div class="popup9">Special thanks to Sofija for the translation fix.</div></div>
+    <p class="mwl" style="margin: 0;">With ♡ by <a href="https://www.instagram.com/hassrede88" target="_blank" style="text-decoration: none;">digga8</a></p>
+</footer>
+
+</body>
+</html>
