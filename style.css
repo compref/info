@@ -357,4 +357,11 @@ td {
     visibility: visible;
     opacity: 1;
 }
-		
+.langsel {
+	font-family: 'Courier New', Courier, monospace;
+	padding: 5px 10px;
+    color: #e0e0e0;
+    text-align: center;
+    margin: 10px 0;
+    position: relative
+}		
