@@ -9,9 +9,9 @@
 <body>
 
 <header>
-    <img id="logo" src="logo.png" alt="Логотип">
+    <a href="index.html" style="color: inherit !important; text-decoration: none !important;"><img id="logo" src="logo.png" alt="Logo" href="index.html"></a>
     <nav>
-        <!-- <a href="ukrainisch.html">Інфо</a> -->
+         <a id="themeToggle" >&#9788;</a>
         <a href="links.html">Контакти</a>
         <select class="language-select" onchange="location = this.value;">
             <option value="language.html">Мова</option>
@@ -28,6 +28,59 @@
 </header>
 
 <main>
+<script>// Function to get a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));  // Cookie expires in 'days' days
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Function to apply the theme based on the saved cookie or default to dark theme
+function applySavedTheme() {
+    const savedTheme = getCookie("theme");
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+    } else {
+        document.body.classList.remove("light-theme");
+    }
+}
+
+// Function to toggle the theme and save the choice in the cookie
+function toggleTheme() {
+    document.body.classList.toggle("light-theme");
+
+    // Save the theme to a cookie
+    if (document.body.classList.contains("light-theme")) {
+        setCookie("theme", "light", 30); // Save "light" theme for 30 days
+    } else {
+        setCookie("theme", "dark", 30); // Save "dark" theme for 30 days
+    }
+}
+
+// Apply the saved theme when the page loads
+window.onload = applySavedTheme;
+
+// Event listener for theme toggle button
+const themeToggleButton = document.getElementById('themeToggle');
+themeToggleButton.addEventListener('click', toggleTheme);
+</script>
+<script>
+        // JavaScript to toggle themes
+        const themeToggleButton = document.getElementById('themeToggle');
+        themeToggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+        });
+</script>
+
     <h1>Інтернет у Campus Brigittenau</h1>
 
 <div id="outerContentBox">
@@ -66,7 +119,7 @@
     <li>Для підключення вашого пристрою напряму до мережевого порту на стіні, ваш пристрій повинен мати Ethernet-порт. Мережевий кабель можна придбати в Compref (5 м завдовжки за 4€), якщо він є в наявності.</li>
     <li>Пристрої без Ethernet-порту потребують адаптера USB-to-LAN для проводового підключення. Адаптер можна придбати в Compref (якщо він є в наявності) за 6€.</li>
     <li>У гуртожитку немає публічного Wi-Fi, за винятком Wi-Fi в лобі. Якщо потрібен Wi-Fi в вашій кімнаті, вам потрібно придбати роутер. Він коштує 20€, якщо є в наявності в Compref.</li>
-    <li>До уваги: <b style="color: orange;">ПРОВОДНЕ</b> з'єднання є <b style="color: orange;">ШВИДШИМ</b> і <b style="color: orange;">СТАБІЛЬНІШИМ</b>.</li>
+    <li>До уваги: <b style="color: orange;">ПРОВІДНЕ</b> з'єднання є <b style="color: orange;">ШВИДШЕ</b> і <b style="color: orange;">СТАБІЛЬНІШЕ</b> ніж Wi-Fi</li>
 </ul>
 
 <h2>2. Реєстрація</h2>
@@ -115,8 +168,8 @@
 
 <h2>6. Комунікація</h2>
 <ul>
-    <li>Чат у WhatsApp був створений студентами для студентів. <br />
-        Приєднуйтесь до нас, щоб обмінюватися інформацією, купувати речі, ділитися місцезнаходженням контролерів та не пропускати інші заходи =) </li>
+    <li>Група у WhatsApp була створена студентами для студентів. <br />
+        Приєднуйтесь до нас, щоб обмінюватися інформацією, купувати речі та не пропускати інші заходи =) </li>
    <li>Чат</li>
     <button id="showQRCodeBtn">ТИК для QR-коду</button>
     <div id="qrPopup" class="popup">

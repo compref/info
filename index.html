@@ -9,13 +9,107 @@
 <body>
 
 <header>
-    <img id="logo" src="logo.png" alt="Logo" style="position: center;">
+    <a style="color: inherit !important; text-decoration: none !important;"><img id="logo" src="logo.png" alt="Logo" href="index.html"></a>
 	<nav>
+		<a id="themeToggle" >&#9788;</a>
         <a href="links.html">Contact</a>
     </nav>
 </header>
 
 <main>
+<script>
+    let clickCount = 0;
+    const themeToggleButton = document.getElementById('themeToggle');
+    let flickerInterval;
+    let flickerDuration = 15000;  // 15 seconds
+    let flickerTimeLeft = flickerDuration;
+    let isFlickering = false;
+
+    // Function to get a cookie by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));  // Cookie expires in 'days' days
+        const expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    // Function to apply the saved theme based on the cookie
+    function applySavedTheme() {
+        const savedTheme = getCookie("theme");
+        if (savedTheme === "light") {
+            document.body.classList.add("light-theme");
+        } else {
+            document.body.classList.remove("light-theme");
+        }
+    }
+
+    // Function to toggle the theme between light and dark
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+
+        // Save the theme to a cookie
+        if (document.body.classList.contains('light-theme')) {
+            setCookie('theme', 'light', 30); // Save "light" theme for 30 days
+        } else {
+            setCookie('theme', 'dark', 30); // Save "dark" theme for 30 days
+        }
+    }
+
+    // Function to start the flicker effect
+    function startFlickerEffect() {
+        flickerTimeLeft = flickerDuration; // Reset the time for flicker duration
+        isFlickering = true; // Set flickering to true to prevent manual toggle
+
+        function flicker() {
+            if (flickerTimeLeft > 0) {
+                toggleTheme();  // Switch between light and dark
+
+                // Generate a random interval between 100ms and 700ms
+                const randomInterval = Math.floor(Math.random() * (700 - 100 + 1)) + 100;
+
+                // Set timeout to flicker after the random interval
+                setTimeout(flicker, randomInterval);
+
+                // Decrease the remaining time by the random interval
+                flickerTimeLeft -= randomInterval;
+            } else {
+                isFlickering = false; // End flickering after 15 seconds
+                alert("Stop spamming please :(");
+            }
+        }
+
+        // Start flickering
+        flicker();
+    }
+
+    // Function to handle button clicks and track how many times the button was pressed
+    function handleButtonClick() {
+        clickCount++;
+
+        if (clickCount === 10 && !isFlickering) {
+            // Start flicker effect after 10 clicks and if flickering isn't happening
+            startFlickerEffect();
+        } else if (!isFlickering) {
+            toggleTheme();
+        }
+    }
+
+    // Apply the saved theme when the page loads
+    window.onload = applySavedTheme;
+
+    // Event listener for theme toggle button
+    themeToggleButton.addEventListener('click', handleButtonClick);
+</script>
+
+
     <h1 style="text-align: center;">Please choose your language</h1>
     <div class="language-list">
         <h2 class="langsel"><a href="deutsch.html">Deutsch</a></h2>

@@ -120,7 +120,7 @@ footer {
     background: #1a1a1a;
     padding: 15px;
     border: 3px dashed #76BA1B;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+
     position: relative;
     display: inline-block;
     text-align: center;
@@ -131,8 +131,9 @@ footer {
 
 
 #content {
-    color: #e0e0e0;
+    color: #9a9a9a;
 	width: 10rem;
+	
 }
 
 #refreshButton {
@@ -364,4 +365,86 @@ td {
     text-align: center;
     margin: 10px 0;
     position: relative
-}		
+}	
+
+/* Light Theme Styles */
+.light-theme {
+    background-color: #fff;
+    color: #333;
+}
+
+.light-theme header {
+    background: #f1f1f1;
+    border-bottom: 3px solid #76BA1B;
+}
+
+.light-theme nav a {
+    color: #76BA1B;
+    background-color: #f1f1f1;
+    border: 2px solid #76BA1B;
+}
+
+.light-theme nav a:hover {
+    background-color: #76BA1B;
+    color: #fff;
+}
+
+.light-theme main {
+    background-color: #fff;
+    color: #333;
+}
+
+.light-theme h1, .light-theme h2 {
+    color: #76BA1B;
+}
+
+.light-theme footer {
+    border-top: 3px solid #76BA1B;
+    color: #76BA1B;
+}
+
+.light-theme #contentBox {
+    background: #f1f1f1;
+    border: 3px dashed #76BA1B;
+}
+
+.light-theme .toggle-button {
+    background-color: #76BA1B;
+    color: #fff;
+}
+
+.light-theme .time-item button.freedom-time {
+    background-color: #76BA1B;
+    color: black;
+}
+
+.light-theme table {
+    background-color: #fff;
+}
+
+.light-theme td {
+    color: #333;
+    border: 1px solid #76BA1B;
+}
+
+.light-theme th {
+    background-color: #f1f1f1;
+}
+
+.light-theme .langsel {
+    color: #333;
+}
+
+.light-theme .popup9 {
+    background-color: #333;
+    color: white;
+}
+
+.light-theme .language-select {
+	background-color: white ;
+	
+}
+.light-theme #refreshButton {
+	background-color: white ;
+	
+}

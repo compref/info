@@ -12,9 +12,9 @@
 <body>
 
 <header>
-    <img id="logo" src="logo.png" alt="Logo" href="index.html">
+    <a href="index.html" style="color: inherit !important; text-decoration: none !important;"><img id="logo" src="logo.png" alt="Logo" href="index.html"></a>
     <nav>
-        <!-- <a href="englisch.html">Info</a> -->
+         <a id="themeToggle" >&#9788;</a>
         <a href="links.html">Contact</a>
         <select class="language-select" onchange="location = this.value;">
             <option value="language.html">Language</option>
@@ -31,6 +31,59 @@
 </header>
 
 <main>
+<script>// Function to get a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));  // Cookie expires in 'days' days
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Function to apply the theme based on the saved cookie or default to dark theme
+function applySavedTheme() {
+    const savedTheme = getCookie("theme");
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+    } else {
+        document.body.classList.remove("light-theme");
+    }
+}
+
+// Function to toggle the theme and save the choice in the cookie
+function toggleTheme() {
+    document.body.classList.toggle("light-theme");
+
+    // Save the theme to a cookie
+    if (document.body.classList.contains("light-theme")) {
+        setCookie("theme", "light", 30); // Save "light" theme for 30 days
+    } else {
+        setCookie("theme", "dark", 30); // Save "dark" theme for 30 days
+    }
+}
+
+// Apply the saved theme when the page loads
+window.onload = applySavedTheme;
+
+// Event listener for theme toggle button
+const themeToggleButton = document.getElementById('themeToggle');
+themeToggleButton.addEventListener('click', toggleTheme);
+</script>
+<script>
+        // JavaScript to toggle themes
+        const themeToggleButton = document.getElementById('themeToggle');
+        themeToggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+        });
+</script>
+
     <h1>Internet at Campus Brigittenau</h1>
 
 <div id="outerContentBox">
@@ -70,7 +123,7 @@
     <li>To connect your device directly to the correct network port on the wall, your device must have an ethernet port. The network cable can be purchased at the compref if available (5m in length for 4€)</li>
     <li>Devices without an ethernet port need an USB to LAN adapter to be used wired. The adapter can be bought at the compref if available and costs 6€.</li>
     <li>There's no public WI-FI in the dormitories besides the one in the pano lobby. If you want Wi-Fi in your room, you will need to get a router. It can be purchased at the compref if available and costs 20€</li>
-	<li>Remember: a <b style="color: orange;">WIRED</b> connection is <b style="color: orange;">FASTER</b> and more <b style="color: orange;">STABLE</b>.</li>
+	<li>Remember: a <b style="color: orange;">WIRED</b> connection is <b style="color: orange;">FASTER</b> and more <b style="color: orange;">STABLE</b> comparing to Wi-Fi.</li>
 </ul>
 
 <h2>2. Registration Process</h2>
@@ -85,8 +138,8 @@
     <li>If you are connecting directly to the wall socket, set your device to obtain its IP address automatically. (DHCP - this is usually the default setting)</li>
 	<li>Please set your DNS settings to default. Custom DNS settings <b style="color: orange"> WILL NOT</b> work!</li>
     <li>If your computer is infected, you will probably be banned from the network. In this case contact the compref.</li>
-    <li>We have an upload limit of 40GB in 24hrs and 80GB in 72hrs. In DOUBLE ROOMS this limit is <b style="color: orange;">SHARED</b> with your roommate!!</li>
-    <li>To prevent overtraffic, you need to turn off automatic backups. Overtraffic can also be caused by things like: streaming on twitch/in discord, watching illegal streams, using torrents. If you get over the limit, your internet will be blocked for 72 hours! You can check your upload at <a href="http://www.panorama.sth.ac.at/">http://www.panorama.sth.ac.at/</a> under My Account.</li>
+    <li>We have an upload limit of 40GB in 24hrs and 80GB in 72hrs. In <b style="color: orange;">DOUBLE ROOMS</b>(two beds in one room) this limit is <b style="color: orange;">SHARED</b> with your roommate!!</li>
+    <li>To avoid exceeding the limit, you should switch off automatic backups from your smartphone and/or laptop. Other things that can very often lead to the limit being exceeded include streaming on Twitch/in Discord, illegal streams (of sporting events, series, films etc.), uploads to Google Drive/Onedrive/iCloud or torrents. If you exceed the upload limit, your internet access will be blocked for 72 hours! You can check your upload at <a href="http://www.panorama.sth.ac.at/">http://www.panorama.sth.ac.at/</a> under My Account.</li>
     <li><b class="warning-text">THE COMPREF <span style="color: red;">CAN NOT</span> UNBLOCK YOU IN CASE OF OVERTRAFFIC!!!</b></li>
 </ul>
 
@@ -96,7 +149,8 @@
     <li>Plug the router's power brick into the wall socket. The network cable should be plugged into 1 of the 2 network ports on the wall. <b style="color: orange"> ONLY ONE PORT IS WORKING! </b> The correct port <b style="color: orange;">SHOULD</b> be labelled with your room number. If there's no label, it's most likely the left port.</li>
     <li>IF connected correctly, the LEDs on the front panel of the router should be green, <b style="color: orange">NOT</b> orange or red.</li>
     <li>You can find your Wi-Fi name and password on the bottom of the router.</li>
-	<li><b style="color: orange">PLEASE</b> don't reset your router or change any settings. <b style="color: orange">YOUR INTERNET WON'T GET ANY FASTER!</b>
+	<li><b style="color: orange">PLEASE</b> don't reset your router or change any settings. <b style="color: orange">YOUR INTERNET WON'T GET ANY FASTER!</b></li>
+	<li>For a faster connection, you can plug a <b style="color: orange">SECOND cable</b> into one of the yellow ports on the back of the router and then connect it directly to your device!</li>
 </ul>
 
 <h2>4. Payment</h2>
@@ -121,8 +175,8 @@
 
 	<h2>6. Communication</h2>
 <ul>
-    <li>A chat in WhatsApp has been set up by students for students. <br />
-        Please join us to exchange information, buy stuff, share controller locations, and not miss out on other activities =) </li>
+    <li>A group in WhatsApp has been set up by students for students. <br />
+        Please join us to exchange information, buy&sell things and not miss out on other activities =) </li>
   <li>Chat</li>
     <button id="showQRCodeBtn">CLICK for the QR-Code</button>
     <div id="qrPopup" class="popup">
