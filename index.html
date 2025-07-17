@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose your language</title>
 	<link rel="stylesheet" href="style.css">
+	  <style>
+    body {
+      transition: filter 1s ease;
+    }
+
+    /* Invisible input */
+    #secret-input {
+      position: absolute;
+      top: -100px;
+      opacity: 0;
+    }
+
+    /* Message styling */
+    #rip-message {
+      position: fixed;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      color: white;
+      opacity: 0;
+      transition: opacity 5s ease;
+      z-index: 1000;
+    }
+
+    /* Black-and-white effect */
+    .grayscale {
+      filter: grayscale(100%);
+    }
+	
+  </style>
 </head>
 <body>
 
@@ -17,6 +48,49 @@
 </header>
 
 <main>
+<!-- RIP Message -->
+  <div id="rip-message">RIP panorama.sth.ac.at Domain. Sommer 2025</div>
+
+  <!-- Audio -->
+  <audio id="titanic-audio" src="rip.mp3"></audio>
+
+  <script>
+    let typed = '';
+    const target = 'panorama.sth.ac.at';
+
+    document.addEventListener('keydown', (e) => {
+      typed += e.key.toLowerCase();
+
+      // Keep buffer same length as target
+      if (typed.length > target.length) {
+        typed = typed.slice(-target.length);
+      }
+
+      if (typed === target) {
+        triggerTribute();
+        // Reset buffer after triggering
+        typed = '';
+      }
+    });
+
+    function triggerTribute() {
+      // Play music
+      const audio = document.getElementById('titanic-audio');
+      audio.play().catch(err => {
+        console.log("Browser blocked autoplay:", err);
+      });
+
+      // Grayscale effect
+      document.body.classList.add('grayscale');
+
+      // Show RIP message
+      const message = document.getElementById('rip-message');
+      setTimeout(() => {
+        message.style.opacity = 1;
+      }, 1000);
+    }
+  </script>
+
 <script>
     let clickCount = 0;
     const themeToggleButton = document.getElementById('themeToggle');
@@ -126,7 +200,6 @@
 
 <footer style="display: flex; justify-content: space-between; align-items: center; padding: 7px;">
     <p style="margin: 0;"><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
-	<!-- <div style="margin: 0;" class="mw0">credits <div class="popup9">Special thanks to Paul for the translation fix.</div></div> -->
    <p class="mwl" style="margin: 0;">With ♡ by <a href="https://www.instagram.com/sbahn94" target="_blank" style="text-decoration: none;">digga8</a></p>
 </footer>
 
