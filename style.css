@@ -448,3 +448,23 @@ td {
 	background-color: white ;
 	
 }
+/* special styling for the "MY INTERNET IS SLOW" button */
+nav a.alert-button {
+    padding: 5px 2.5em;
+    min-width: max(180px, 12vw);
+    text-align: center;
+}
+
+/* Override hover - no green background */
+nav a.alert-button:hover {
+    background-color: #2a2a2a;  
+    color: #ffff00;  
+    border-color: #ff6600;
+}
+
+/* Light theme version */
+.light-theme nav a.alert-button:hover {
+    background-color: #f1f1f1;
+    color: #ff6600;  
+    border-color: #ff6600;
+}

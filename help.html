@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Speed Help</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .info-box {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px dashed #76BA1B;
+        }
+        .light-theme .info-box {
+            background-color: #f1f1f1;
+        }
+        .info-box p,
+        .info-box ul {
+            text-align: left;
+        }
+        .highlight-box {
+            background-color: #2a2a2a;
+            padding: 25px;
+            margin: 30px 0;
+            border: 3px solid #76BA1B;
+            text-align: center;
+        }
+        .light-theme .highlight-box {
+            background-color: #f1f1f1;
+        }
+        .img-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .img-container img {
+            max-width: 100%;
+            height: auto;
+            border: 3px dashed #76BA1B;
+        }
+        h3 {
+            color: #76BA1B;
+            font-size: 1.3em;
+            margin-top: 15px;
+            text-align: left;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: left;
+        }
+        main > p {
+            text-align: left;
+        }
+        .warning-text {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" style="color: inherit !important; text-decoration: none !important;"><img id="logo" src="logo.png" alt="Logo"></a>
+    <nav>
+        <a id="themeToggle">&#9788;</a>
+        <a href="links.html">Contact</a>
+    </nav>
+</header>
+
+<main>
+<script>
+// Function to get a cookie by name
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Function to apply the theme based on the saved cookie
+function applySavedTheme() {
+    const savedTheme = getCookie("theme");
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+    } else {
+        document.body.classList.remove("light-theme");
+    }
+}
+
+// Function to toggle the theme and save the choice in the cookie
+function toggleTheme() {
+    document.body.classList.toggle("light-theme");
+    if (document.body.classList.contains("light-theme")) {
+        setCookie("theme", "light", 30);
+    } else {
+        setCookie("theme", "dark", 30);
+    }
+}
+
+// Apply the saved theme when the page loads
+window.onload = applySavedTheme;
+
+// Event listener for theme toggle button
+const themeToggleButton = document.getElementById('themeToggle');
+themeToggleButton.addEventListener('click', toggleTheme);
+</script>
+
+    <h1>WHY IS MY INTERNET SO SLOW?</h1>
+    
+    <p>We understand how frustrating slow internet can be. Let us help you to find a solution.</p>
+
+    <h2>The best option: wired connection.</h2>
+    <p>If you're experiencing slow internet speeds, the most effective and reliable solution is to use a <b class="warning-text">wired ethernet connection</b> instead of WiFi. Wired connections are <b class="warning-text">significantly faster and more stable</b> than wireless connections, providing you with the best possible internet experience.</p>
+
+    <h3>How to connect via cable?</h3>
+    
+    <div class="info-box">
+        <h3>Step 1: get an ethernet cable</h3>
+        <p>You have 2 options:</p>
+        <ul>
+            <li><b>Visit any electronics store or thrift shop</b> and purchase an ethernet cable (also called a network cable or LAN cable). These are usually quite affordable and shouldn't cost more than 5€.</li>
+            <li>Too lazy to go anywhere? <b>Get one from us.</b> We have them available for just <b class="warning-text">4€</b> (5-meter cable).</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3>Step 2: connect your device</h3>
+        <p><b>Once you have your cable:</b></p>
+        <ul>
+            <li>plug one end of the ethernet cable into your device (laptop, desktop computer, gaming console, etc.). If your device doesn't have ethernet port, you obviously need an adapter.</li>
+            <li>plug the other end into one of the <b class="warning-text">orange LAN(internet) ports</b> on the back of your router</li>
+        </ul>
+        <p>That's basically it. You should immediately notice a significant improvement in your internet speed and stability.</p>
+    </div>
+
+    <h2>All mentioned above is good, however WHY IS MY WIFI SO SLOW BY DEFAULT?</h2>
+    
+    <p>WiFi connections are often slower due to <b class="warning-text">signal interference</b>. In a building like our campus, with many rooms and many residents, there are <b class="warning-text">hundreds if not thousands of WiFi networks</b> all trying to use the same limited radio frequencies. Imagine 40 people trying to have phone conversations using only 13 working phone lines.</p>
+	
+
+    <h3 style="text-align: center">How does it look visually:</h3>
+    
+    <div class="img-container">
+        <img src="interference.jpg" alt="WiFi Interference Diagram" style="max-width: 500px;">
+    </div>
+
+    <div class="info-box">
+        <h3>What causes interference?</h3>
+        <ul>
+            <li><b>Too many networks:</b> most routers operate on the 2.4 GHz frequency band, which only has 11-13 channels available. When dozens of routers nearby all use the same channels, their signals overlap and interfere with each other.</li>
+            <li><b>Overlapping channels:</b> even routers on "different" channels can interfere because WiFi channels are actually quite wide. Channels 1, 6, and 11 are the only non-overlapping channels in the 2.4 GHz band.</li>
+        </ul>
+        <p><b>The result:</b> your WiFi signal has to compete with all this interference, causing slow speeds, connection drops, and high latency.</p>
+    </div>
+
+    <div class="info-box">
+        <h3>Why wired connections are generally better?</h3>
+        <ul>
+            <li><b class="warning-text">Foremost important:</b> no interference.</li>
+            <li>Higher speeds.</li>
+            <li>Lower latency.</li>
+        </ul>
+    </div>
+
+    <h2>What if i really need WiFi?</h2>
+    
+    <p>We understand that some situations require WiFi (for example, if you use only a smartphone or tablet). However, if your current router's WiFi is too slow and you've tried everything else, here are your options:</p>
+
+ <div class="info-box">
+        <h3>Upgrade to a better router.</h3>
+        <p>If you absolutely need faster WiFi, you'll need to purchase a <b class="warning-text">better, more modern router</b> that supports:</p>
+        <ul>
+            <li><b>WiFi 5 (802.11ac) or WiFi 6 (802.11ax):</b> these newer WiFi standards offer better performance with the cost of the range.</li>
+        </ul>
+        <p><b class="warning-text">Important:</b> the TP-Link router we offer is a budget model that only supports 2.4 GHz WiFi. It cannot be upgraded through settings or firmware updates. If you need better WiFi performance, you will need to purchase your own router.</p>
+    </div>
+
+
+</main>
+
+<footer style="display: flex; justify-content: space-between; align-items: center; padding: 7px;">
+    <p style="margin: 0;"><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
+    <p class="mwl" style="margin: 0;">With ♡ by <a href="https://www.instagram.com/sbahn95" target="_blank" style="text-decoration: none;">digga8</a></p>
+</footer>
+
+</body>
+</html>
