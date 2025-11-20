@@ -448,23 +448,39 @@ td {
 	background-color: white ;
 	
 }
-/* special styling for the "MY INTERNET IS SLOW" button */
+
 nav a.alert-button {
-    padding: 5px 2.5em;
-    min-width: max(180px, 12vw);
+    padding: 5px 1em;
     text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Override hover - no green background */
 nav a.alert-button:hover {
-    background-color: #2a2a2a;  
-    color: #ffff00;  
-    border-color: #ff6600;
+    animation: color-breathe 3s ease-in-out infinite;
 }
 
-/* Light theme version */
 .light-theme nav a.alert-button:hover {
-    background-color: #f1f1f1;
-    color: #ff6600;  
-    border-color: #ff6600;
+    animation: color-breathe 3s ease-in-out infinite;
 }
+
+/* color breathing animation */
+@keyframes color-breathe {
+    0% {
+        background-color: #2a2a2a;
+        color: #ff9900;
+        border-color: #76BA1B;
+    }
+    50% {
+        background-color: #3a3a3a;
+        color: #ff9900;
+        border-color: #ff6600;
+    }
+    100% {
+        background-color: #2a2a2a;
+        color: #ff9900;
+        border-color: #76BA1B;
+    }
+}
+
+
+
