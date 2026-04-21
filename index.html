@@ -10,13 +10,6 @@
       transition: filter 1s ease;
     }
 
-    /* Invisible input */
-    #secret-input {
-      position: absolute;
-      top: -100px;
-      opacity: 0;
-    }
-
     /* Message styling */
     #rip-message {
       position: fixed;
@@ -34,7 +27,166 @@
     .grayscale {
       filter: grayscale(100%);
     }
-	
+
+    /* ---------- Console icon in footer ---------- */
+    #console-icon {
+      cursor: pointer;
+      color: #76BA1B;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 0.9em;
+      user-select: none;
+      letter-spacing: 1px;
+      padding: 0;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    #console-icon:hover {
+      color: #e0e0e0;
+    }
+    .light-theme #console-icon:hover {
+      color: #333;
+    }
+
+    /* ---------- Footer layout ---------- */
+    footer.site-footer {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 7px;
+    }
+    footer.site-footer > *:nth-child(1) { justify-self: start;  margin: 0; }
+    footer.site-footer > *:nth-child(2) { justify-self: center; }
+    footer.site-footer > *:nth-child(3) { justify-self: end;    margin: 0; }
+
+    /* ---------- Fullscreen console ---------- */
+    #console-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #0a0a0a;
+      color: #76BA1B;
+      font-family: 'Courier New', Courier, monospace;
+      z-index: 2000;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #console-overlay.open {
+      display: flex;
+    }
+    #console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #76BA1B;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+    #console-header .title {
+      font-weight: bold;
+      font-size: 1em;
+    }
+    #console-close {
+      cursor: pointer;
+      background: #2a2a2a;
+      border: 2px solid #76BA1B;
+      color: #76BA1B;
+      font-family: inherit;
+      padding: 3px 12px;
+      border-radius: 3px;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    #console-close:hover {
+      background-color: #76BA1B;
+      color: #000;
+    }
+    #console-output {
+      flex-grow: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      padding: 5px 0;
+      font-size: 0.95em;
+      line-height: 1.45;
+    }
+    #console-output .cmd-echo  { color: #e0e0e0; }
+    #console-output .cmd-error { color: #ff6b6b; }
+    #console-output .cmd-info  { color: #76BA1B; }
+    #console-output .cmd-dim   { color: #6a6a6a; }
+    #console-input-line {
+      display: flex;
+      align-items: center;
+      border-top: 2px solid #76BA1B;
+      padding-top: 10px;
+      flex-shrink: 0;
+    }
+    #console-prompt {
+      color: #76BA1B;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+    #console-input {
+      flex-grow: 1;
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-family: inherit;
+      font-size: 1em;
+      outline: none;
+      caret-color: #76BA1B;
+    }
+
+    /* ---------- Surprise animation ---------- */
+    #surprise-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.88);
+      z-index: 3000;
+      overflow: hidden;
+      filter: grayscale(100%);
+    }
+    #surprise-overlay.active {
+      display: block;
+    }
+    .surprise-emoji {
+      position: absolute;
+      top: -60px;
+      animation: surprise-fall linear forwards;
+      user-select: none;
+      pointer-events: none;
+      filter: grayscale(100%);
+    }
+    @keyframes surprise-fall {
+      to {
+        transform: translateY(115vh) rotate(540deg);
+      }
+    }
+    #surprise-text {
+      position: absolute;
+      top: 38%;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 3.5em;
+      font-weight: bold;
+      letter-spacing: 4px;
+      text-shadow: 0 0 12px #000, 0 0 3px #000;
+      z-index: 3001;
+      animation: surprise-pulse 0.8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes surprise-pulse {
+      from { transform: scale(1);    opacity: 0.85; }
+      to   { transform: scale(1.08); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -49,48 +201,8 @@
 </header>
 
 <main>
-<!-- RIP Message -->
   <div id="rip-message">RIP panorama.sth.ac.at Domain. Sommer 2025</div>
-
-  <!-- Audio -->
   <audio id="titanic-audio" src="rip.mp3"></audio>
-
-  <script>
-    let typed = '';
-    const target = 'panorama.sth.ac.at';
-
-    document.addEventListener('keydown', (e) => {
-      typed += e.key.toLowerCase();
-
-      // Keep buffer same length as target
-      if (typed.length > target.length) {
-        typed = typed.slice(-target.length);
-      }
-
-      if (typed === target) {
-        triggerTribute();
-        // Reset buffer after triggering
-        typed = '';
-      }
-    });
-
-    function triggerTribute() {
-      // Play music
-      const audio = document.getElementById('titanic-audio');
-      audio.play().catch(err => {
-        console.log("Browser blocked autoplay:", err);
-      });
-
-      // Grayscale effect
-      document.body.classList.add('grayscale');
-
-      // Show RIP message
-      const message = document.getElementById('rip-message');
-      setTimeout(() => {
-        message.style.opacity = 1;
-      }, 1000);
-    }
-  </script>
 
 <script>
     let clickCount = 0;
@@ -197,10 +309,243 @@
     </div>
 </main>
 
-<footer style="display: flex; justify-content: space-between; align-items: center; padding: 7px;">
-    <p style="margin: 0;"><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
-   <p class="mwl" style="margin: 0;">With ♡ by <a href="https://www.instagram.com/sbahn95" target="_blank" style="text-decoration: none;">digga8</a></p>
+<audio id="surprise-audio" src="mhm.mp3"></audio>
+<div id="surprise-overlay">
+  <div id="surprise-text">FUCK IGNAC</div>
+</div>
+
+<div id="console-overlay" role="dialog" aria-label="Console">
+  <div id="console-header">
+    <span class="title">Console 1.0</span>
+    <button id="console-close" title="Exit">[ X ]&nbsp;EXIT</button>
+  </div>
+  <div id="console-output"></div>
+  <div id="console-input-line">
+    <span id="console-prompt">&gt;</span>
+    <input id="console-input" type="text" autocomplete="off" autocapitalize="off"
+           autocorrect="off" spellcheck="false" aria-label="Console input" />
+  </div>
+</div>
+
+<footer class="site-footer">
+    <p><a href="http://www.campusbrigittenau.at">www.campusbrigittenau.at</a></p>
+    <a id="console-icon" title="console">&gt;_</a>
+    <p class="mwl">With ♡ by <a href="https://www.instagram.com/sbahn95" target="_blank" style="text-decoration: none;">digga8</a></p>
 </footer>
+
+<script>
+(function () {
+    const overlay    = document.getElementById('console-overlay');
+    const output     = document.getElementById('console-output');
+    const input      = document.getElementById('console-input');
+    const closeBtn   = document.getElementById('console-close');
+    const icon       = document.getElementById('console-icon');
+
+    const history = [];
+    let historyIndex = -1;
+
+    const HELP_TEXT =
+        'Available commands:\n' +
+        '  certs                  download certificate files\n' +
+        '  panorama.sth.ac.at     press F to pay respects\n' +
+        '  exit                   close the console';
+
+    function print(text, cls) {
+        const line = document.createElement('div');
+        if (cls) line.className = cls;
+        line.textContent = text;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+    function echoCommand(cmd) {
+        const line = document.createElement('div');
+        line.className = 'cmd-echo';
+        line.textContent = '> ' + cmd;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function openConsole() {
+        overlay.classList.add('open');
+        setTimeout(() => input.focus(), 0);
+    }
+    function closeConsole() {
+        overlay.classList.remove('open');
+    }
+
+    function downloadFile(url, filename) {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    function runCerts() {
+        const files = [
+            { url: 'cert_1.crt', name: 'cert_LocalTrustDecryptCert.crt' },
+            { url: 'cert_2.crt', name: 'cert_CampusRoot.crt' }
+        ];
+        files.forEach((f, i) => {
+            setTimeout(() => {
+                print('downloading ' + f.name + ' ...', 'cmd-info');
+                downloadFile(f.url, f.name);
+                if (i === files.length - 1) {
+                    setTimeout(() => print('done.', 'cmd-dim'), 300);
+                }
+            }, i * 500);
+        });
+    }
+
+    function triggerTribute() {
+        const audio = document.getElementById('titanic-audio');
+        audio.play().catch(err => console.log("Browser blocked autoplay:", err));
+        document.body.classList.add('grayscale');
+        const message = document.getElementById('rip-message');
+        setTimeout(() => { message.style.opacity = 1; }, 1000);
+    }
+    function runPanorama() {
+        print('launching tribute...', 'cmd-info');
+        setTimeout(() => {
+            closeConsole();
+            triggerTribute();
+        }, 500);
+    }
+
+    function triggerSurprise() {
+        const surpriseOverlay = document.getElementById('surprise-overlay');
+        const surpriseAudio   = document.getElementById('surprise-audio');
+
+        surpriseOverlay.classList.add('active');
+
+        try {
+            surpriseAudio.currentTime = 0;
+            surpriseAudio.play().catch(err => console.log("Browser blocked autoplay:", err));
+        } catch (e) { /* ignore */ }
+
+        const blockUnload = function (e) {
+            e.preventDefault();
+            e.returnValue = 'Please wait.';
+            return 'Please wait.';
+        };
+        window.addEventListener('beforeunload', blockUnload);
+
+        const swallowKeys = function (e) {
+            if (e.key === 'F5' ||
+                (e.ctrlKey && ['r', 'R', 'w', 'W'].indexOf(e.key) !== -1) ||
+                (e.metaKey && ['r', 'R', 'w', 'W'].indexOf(e.key) !== -1)) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        };
+        window.addEventListener('keydown', swallowKeys, true);
+
+        const rain = setInterval(() => {
+            for (let i = 0; i < 4; i++) {
+                const em = document.createElement('div');
+                em.className = 'surprise-emoji';
+                em.textContent = '🤮';
+                em.style.left = (Math.random() * 100) + 'vw';
+                em.style.fontSize = (1.5 + Math.random() * 2.5) + 'em';
+                em.style.animationDuration = (2 + Math.random() * 3.5) + 's';
+                surpriseOverlay.appendChild(em);
+                setTimeout(() => { em.remove(); }, 6000);
+            }
+        }, 120);
+
+        setTimeout(() => {
+            clearInterval(rain);
+            window.removeEventListener('beforeunload', blockUnload);
+            window.removeEventListener('keydown', swallowKeys, true);
+
+            setTimeout(() => {
+                try { surpriseAudio.pause(); } catch (e) {}
+                surpriseOverlay.classList.remove('active');
+                surpriseOverlay.querySelectorAll('.surprise-emoji').forEach(el => el.remove());
+            }, 6000);
+        }, 15000);
+    }
+    function runSurprise() {
+        print('...initiating sequence.', 'cmd-error');
+        setTimeout(() => {
+            closeConsole();
+            triggerSurprise();
+        }, 400);
+    }
+
+    function handleCommand(raw) {
+        const cmd = raw.trim();
+        if (!cmd) return;
+        echoCommand(cmd);
+        history.push(cmd);
+        historyIndex = history.length;
+
+        switch (cmd.toLowerCase()) {
+            case 'help':
+            case '?':
+                print(HELP_TEXT, 'cmd-info');
+                break;
+            case 'certs':
+                runCerts();
+                break;
+            case 'panorama.sth.ac.at':
+                runPanorama();
+                break;
+            case 'ignac':
+                runSurprise();
+                break;
+            case 'clear':
+            case 'cls':
+                output.innerHTML = '';
+                break;
+            case 'exit':
+            case 'quit':
+            case 'close':
+                closeConsole();
+                break;
+            default:
+                print("command not found: " + cmd, 'cmd-error');
+        }
+    }
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const val = input.value;
+            input.value = '';
+            handleCommand(val);
+        } else if (e.key === 'ArrowUp') {
+            if (history.length && historyIndex > 0) {
+                historyIndex--;
+                input.value = history[historyIndex];
+                setTimeout(() => input.setSelectionRange(input.value.length, input.value.length), 0);
+            }
+            e.preventDefault();
+        } else if (e.key === 'ArrowDown') {
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                input.value = history[historyIndex];
+            } else {
+                historyIndex = history.length;
+                input.value = '';
+            }
+            e.preventDefault();
+        }
+    });
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target !== closeBtn) input.focus();
+    });
+
+    icon.addEventListener('click', openConsole);
+    closeBtn.addEventListener('click', closeConsole);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+            closeConsole();
+        }
+    });
+})();
+</script>
 
 </body>
 </html>
