@@ -21,6 +21,7 @@
       opacity: 0;
       transition: opacity 5s ease;
       z-index: 1000;
+      pointer-events: none; /* never intercept taps when invisible */
     }
 
     /* Black-and-white effect */
@@ -147,27 +148,78 @@
       display: none;
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.88);
+      background-color: rgba(0, 0, 0, 0.85);
       z-index: 3000;
       overflow: hidden;
-      filter: grayscale(100%);
+      animation: surprise-strobe 0.6s steps(2) infinite;
     }
     #surprise-overlay.active {
       display: block;
     }
+    @keyframes surprise-strobe {
+      0%   { background-color: rgba(20,  0,   0, 0.85); }
+      25%  { background-color: rgba(0,   20,  0, 0.80); }
+      50%  { background-color: rgba(0,   0,   20, 0.85); }
+      75%  { background-color: rgba(20,  20,  0, 0.80); }
+      100% { background-color: rgba(20,  0,   0, 0.85); }
+    }
+
+    /* shake page content while it runs (NOT the body itself —
+       a transformed body would re-anchor position:fixed and expose gaps) */
+    body.surprise-shake > header,
+    body.surprise-shake > main,
+    body.surprise-shake > footer {
+      animation: surprise-body-shake 0.18s linear infinite;
+    }
+    @keyframes surprise-body-shake {
+      0%   { transform: translate(0, 0)     rotate(0deg); }
+      20%  { transform: translate(-5px, 3px)  rotate(-0.4deg); }
+      40%  { transform: translate(4px, -4px)  rotate(0.5deg); }
+      60%  { transform: translate(-3px, -5px) rotate(-0.3deg); }
+      80%  { transform: translate(5px, 4px)   rotate(0.4deg); }
+      100% { transform: translate(0, 0)     rotate(0deg); }
+    }
+
     .surprise-emoji {
       position: absolute;
-      top: -60px;
-      animation: surprise-fall linear forwards;
+      top: -80px;
       user-select: none;
       pointer-events: none;
-      filter: grayscale(100%);
+      will-change: transform;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.4));
     }
+    .surprise-emoji.fall      { animation: surprise-fall      linear forwards; }
+    .surprise-emoji.fall-spin { animation: surprise-fall-spin linear forwards; }
+    .surprise-emoji.diag-r    { animation: surprise-diag-r    linear forwards; }
+    .surprise-emoji.diag-l    { animation: surprise-diag-l    linear forwards; }
+    .surprise-emoji.zigzag    { animation: surprise-zigzag    linear forwards; }
+    .surprise-emoji.huge      { animation: surprise-huge      linear forwards; }
+
     @keyframes surprise-fall {
-      to {
-        transform: translateY(115vh) rotate(540deg);
-      }
+      to { transform: translateY(120vh) rotate(540deg); }
     }
+    @keyframes surprise-fall-spin {
+      to { transform: translateY(120vh) rotate(1440deg) scale(1.4); }
+    }
+    @keyframes surprise-diag-r {
+      to { transform: translate(60vw, 120vh) rotate(900deg); }
+    }
+    @keyframes surprise-diag-l {
+      to { transform: translate(-60vw, 120vh) rotate(-900deg); }
+    }
+    @keyframes surprise-zigzag {
+      0%   { transform: translate(0, 0)        rotate(0deg); }
+      25%  { transform: translate(20vw, 30vh)  rotate(180deg); }
+      50%  { transform: translate(-15vw, 60vh) rotate(360deg); }
+      75%  { transform: translate(15vw, 90vh)  rotate(540deg); }
+      100% { transform: translate(0, 120vh)    rotate(720deg); }
+    }
+    @keyframes surprise-huge {
+      0%   { transform: translateY(0)      rotate(0deg)   scale(0.6); }
+      50%  { transform: translateY(60vh)   rotate(360deg) scale(2.5); }
+      100% { transform: translateY(120vh)  rotate(720deg) scale(0.6); }
+    }
+
     #surprise-text {
       position: absolute;
       top: 38%;
@@ -175,17 +227,24 @@
       text-align: center;
       color: #fff;
       font-family: 'Courier New', Courier, monospace;
-      font-size: 3.5em;
+      font-size: 4em;
       font-weight: bold;
-      letter-spacing: 4px;
-      text-shadow: 0 0 12px #000, 0 0 3px #000;
+      letter-spacing: 5px;
       z-index: 3001;
-      animation: surprise-pulse 0.8s ease-in-out infinite alternate;
+      animation:
+        surprise-pulse 0.35s ease-in-out infinite alternate,
+        surprise-glitch 0.25s steps(1) infinite;
       pointer-events: none;
     }
     @keyframes surprise-pulse {
-      from { transform: scale(1);    opacity: 0.85; }
-      to   { transform: scale(1.08); opacity: 1; }
+      from { transform: scale(0.92) skew(-3deg); }
+      to   { transform: scale(1.18) skew(3deg); }
+    }
+    @keyframes surprise-glitch {
+      0%   { text-shadow:  4px 0   #0ff, -4px 0   #f0f, 0 0 16px #f00; color: #fff; }
+      33%  { text-shadow: -5px 2px #ff0,  5px -2px #0f0, 0 0 20px #f0f; color: #ffe; }
+      66%  { text-shadow:  3px 4px #f00, -3px -4px #0ff, 0 0 24px #ff0; color: #fff; }
+      100% { text-shadow: -4px 0   #f0f,  4px 0   #0f0, 0 0 16px #f00; color: #ffd; }
     }
   </style>
 </head>
@@ -309,7 +368,7 @@
     </div>
 </main>
 
-<audio id="surprise-audio" src="mhm.mp3"></audio>
+<audio id="surprise-audio" src="mhm.mp3" loop></audio>
 <div id="surprise-overlay">
   <div id="surprise-text">FUCK IGNAC</div>
 </div>
@@ -417,9 +476,11 @@
         const surpriseAudio   = document.getElementById('surprise-audio');
 
         surpriseOverlay.classList.add('active');
+        document.body.classList.add('surprise-shake');
 
         try {
             surpriseAudio.currentTime = 0;
+            surpriseAudio.loop = true;
             surpriseAudio.play().catch(err => console.log("Browser blocked autoplay:", err));
         } catch (e) { /* ignore */ }
 
@@ -440,29 +501,34 @@
         };
         window.addEventListener('keydown', swallowKeys, true);
 
-        const rain = setInterval(() => {
-            for (let i = 0; i < 4; i++) {
-                const em = document.createElement('div');
-                em.className = 'surprise-emoji';
-                em.textContent = '🤮';
-                em.style.left = (Math.random() * 100) + 'vw';
-                em.style.fontSize = (1.5 + Math.random() * 2.5) + 'em';
-                em.style.animationDuration = (2 + Math.random() * 3.5) + 's';
-                surpriseOverlay.appendChild(em);
-                setTimeout(() => { em.remove(); }, 6000);
-            }
-        }, 120);
+        const EMOJIS  = ['😂'];
+        const STYLES  = ['fall', 'fall-spin', 'diag-r', 'diag-l', 'zigzag', 'huge'];
+        const pick    = arr => arr[Math.floor(Math.random() * arr.length)];
 
+        const rain = setInterval(() => {
+            // cap the live emoji count so the DOM doesn't explode
+            const live = surpriseOverlay.querySelectorAll('.surprise-emoji');
+            if (live.length > 200) return;
+
+            for (let i = 0; i < 5; i++) {
+                const em = document.createElement('div');
+                const style = pick(STYLES);
+                em.className = 'surprise-emoji ' + style;
+                em.textContent = pick(EMOJIS);
+                em.style.left = (Math.random() * 100) + 'vw';
+                em.style.fontSize = (1.4 + Math.random() * 3) + 'em';
+                const dur = 2 + Math.random() * 4; // 2–6s
+                em.style.animationDuration = dur + 's';
+                em.style.animationDelay = (Math.random() * 0.3) + 's';
+                surpriseOverlay.appendChild(em);
+                setTimeout(() => em.remove(), (dur + 0.4) * 1000);
+            }
+        }, 110);
+
+        // unblock unload after 15s, but the visual + audio chaos keeps going forever
         setTimeout(() => {
-            clearInterval(rain);
             window.removeEventListener('beforeunload', blockUnload);
             window.removeEventListener('keydown', swallowKeys, true);
-
-            setTimeout(() => {
-                try { surpriseAudio.pause(); } catch (e) {}
-                surpriseOverlay.classList.remove('active');
-                surpriseOverlay.querySelectorAll('.surprise-emoji').forEach(el => el.remove());
-            }, 6000);
         }, 15000);
     }
     function runSurprise() {
